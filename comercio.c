@@ -88,16 +88,28 @@ void financeiro(char dec) {
 	printf("Voltar (digite V)\n\n");
 	printf("Escolha: ");
 	scanf(" %c", &dec);
-	while(dec=='d' || dec=='r' || dec=='s') {
-		printf("essa parte ainda não foi programada, então volta aí na moral\n");
-		scanf(" %c", &dec);
-	}
 	while(dec!='d' && dec!='r' && dec!='s' && dec!='v') {
 		printf("Comando inválido, digite novamente: ");
 		scanf(" %c", &dec);
 	}
-	if(dec=='v') {
-		main();
+	
+	switch(dec) {
+        case 'd':
+            printf("vaisefode");
+	        break;
+	    
+	    case 'r':
+	        printf("vaisefode");
+	        break;
+	        
+	    case 's':
+	        printf("vaisefode");
+	        break;
+	        
+	    case 'v':
+	        main();
+	        break;
+	    
 	}
 }
 
