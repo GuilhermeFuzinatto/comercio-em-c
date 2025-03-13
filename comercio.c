@@ -69,10 +69,11 @@ int submenus(char dec, float sald) {
 void estoque(char dec) {
 	printf("\nEstoque\n");
 	printf("Itens Disponíveis:\n 1. Bosta - 10 Unidades\n 2. Coco - 10 Unidades \n 3. Merda - 10 Unidades\n");
+	printf("Adicionar Item (digite A)\n");
 	printf("Voltar (digite V)\n\n");
 	printf("Escolha: ");
 	scanf(" %c", &dec);
-	while(dec!='v') {
+	while(dec!='a' && dec!='v') {
 		printf("Comando inválido, digite novamente: ");
 		scanf(" %c", &dec);
 	}
@@ -85,8 +86,10 @@ void estoque(char dec) {
 
 //submenu vendas
 void vendas(char dec) {
+    int item; //para selecionar o item vendido
+    int qtd; //para selecionar quantidade vendida
 	printf("\nVendas\n");
-	printf("Itens Disponíveis:\n 1. Bosta - R$15,00\n 2. Coco - R$20,00\n 3. Merda - R$45,00\n");
+	printf("Itens Disponíveis:\n 001. Bosta - R$15,00\n 002. Coco - R$20,00\n 003. Merda - R$45,00\n");
 	printf("Registrar Venda (digite R)\n");
 	printf("Voltar (digite V)\n\n");
 	printf("Escolha: ");
@@ -96,9 +99,17 @@ void vendas(char dec) {
 		scanf(" %c", &dec);
 	}
 	switch(dec){
-	    
 	    case 'r':
-	        printf("Item Vendido:");
+	        printf("Item Vendido (digite o número do item): ");
+	        scanf("%d", &item);
+	        switch(item){
+	            case 001:
+	                printf("Quantidade Vendida: ");
+	                scanf("%d", &qtd);
+	                printf("vaisefode nao terminei\n");
+	                main();
+	                //TERMINAR ESSA PARTE
+	        }
 	    
 	    case 'v':
 	        main();
@@ -122,14 +133,17 @@ void financeiro(char dec, float sald) {
 	}
 	
 	switch(dec) {
+	    //registrar despesas
         case 'd':
             despesas(d4, sald);
 	        break;
 	    
+	    //registrar receitas
 	    case 'r':
 	        receitas(d4, sald);
 	        break;
-	        
+	       
+	    //consultar saldo
 	    case 's':
 	        saldo(d4, sald);
 	        break;
@@ -158,7 +172,7 @@ void despesas(char dec, float sald) {
 	switch(dec) {
         case 'v':
             financeiro(d3, sald);
-            break;''
+            break;
     }
 }
 
