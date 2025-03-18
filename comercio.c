@@ -1,3 +1,5 @@
+//O TOTAL VENDIDO NAO TA SENDO PASSADO DIREITO PRO SALDO POR CAUSA DA FUNCAO PAGAMENTO, ARRUMAR ESSA PORRA
+
 //bibliotecas
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,9 +7,13 @@
 //funções utilizadas
 int main();
 int submenus(char dec, float sald);
+
 void estoque(char dec);
+
 void vendas(char dec, float sald);
 float pagamento(float total);
+void totalpitem(char dec, float sald, float vend001, float vend002, float vend003);
+
 void financeiro(char dec, float sald);
 void despesas(char dec, float sald);
 void receitas(char dec, float sald);
@@ -43,6 +49,7 @@ int submenus(char dec, float sald) {
 	//tratamento de erro
 	while(dec!='e' && dec!='v' && dec!='f' && dec!='s') {
 		printf("Comando inválido, digite novamente: ");
+		
 		scanf(" %c", &dec);
 	}
 
@@ -97,20 +104,27 @@ void estoque(char dec) {
 void vendas(char dec, float sald) {
     char d2; //decisão: opções do menu principal
     char d3; //decisão: opções dos submenus
+    char d4; //decisão nas opções do submenu
     char conf; //decisão de confirmação
     int item; //para selecionar o item vendido
     int qtd; //para selecionar quantidade vendida
     float total; //total do valor vendido
     
+    //total vendido por cada item
+    float vend001;
+    float vend002;
+    float vend003;
+    
 	printf("\nVendas\n");
 	printf("Itens Disponíveis:\n 001. Bosta - R$15,00\n 002. Coco - R$20,00\n 003. Merda - R$45,00\n");
 	printf("Registrar Venda (digite R)\n");
+	printf("Total Vendido Por Item (digite T)\n");
 	printf("Voltar (digite V)\n\n");
 	printf("Escolha: ");
 	scanf(" %c", &dec);
 	
 	//tratamento de erro
-	while(dec!='v' && dec!='r') {
+	while(dec!='v' && dec!='r' && dec!='t') {
 		printf("Comando inválido, digite novamente: ");
 		scanf(" %c", &dec);
 	}
@@ -144,6 +158,7 @@ void vendas(char dec, float sald) {
 	                printf("\nTotal vendido: R$%.2f \n", pagamento(total));
 	                printf("Receita Registrada! \n");
 	                sald = sald + total;
+	                vend001 = vend001 + total;
 	                vendas(d3, sald);
 	                break;
 	               
@@ -152,6 +167,7 @@ void vendas(char dec, float sald) {
 	                printf("\nTotal vendido: R$%.2f \n", pagamento(total));
 	                printf("Receita Registrada! \n");
 	                sald = sald + total;
+	                vend002 = vend002 + total;
 	                vendas(d3, sald);
 	                break;
 	                
@@ -160,9 +176,14 @@ void vendas(char dec, float sald) {
 	                printf("\nTotal vendido: R$%.2f \n", pagamento(total));
 	                printf("Receita Registrada! \n");
 	                sald = sald + total;
+	                vend003 = vend003 + total;
 	                vendas(d3, sald);
 	                break;
 	        }
+	        
+	    //total vendido por categoria
+	    case 't':
+	        totalpitem(d4, sald, vend001, vend002, vend003);
 	    
 	    //voltar ao menu principal
 	    case 'v':
@@ -173,6 +194,8 @@ void vendas(char dec, float sald) {
 
 //forma de pagamento
 float pagamento(float total){
+    float vpag; //valor pago pelo cliente
+    float troco; //valor do troco
     char fpag; //forma de pagamento
     char conf; //decisão de confirmação
     
@@ -193,6 +216,10 @@ float pagamento(float total){
                 }else{
                     total = total - (total*0.18);
                 }
+                printf("Qual o valor dado pelo cliente? R$");
+                scanf("%f", &vpag);
+                troco = vpag - total;
+                printf("Troco a ser retornado: R$%.2f", troco);
                 break;
 	                
 	        case 'c':
@@ -208,6 +235,28 @@ float pagamento(float total){
 	}while(conf=='n');
 	
 	return total;
+}
+
+void totalpitem(char dec, float sald, float vend001, float vend002, float vend003){
+    char d3; //decisão: opções dos submenus
+    
+    //FAZER O TOTAL VENDIDO POR ITEM
+    
+    printf("Valor Vendido por Item");
+	printf("\nItem 001: %.2f", vend001);
+	printf("\nItem 002: %.2f", vend002);
+	printf("\nItem 003: %.2f", vend003);
+	printf("\nVoltar (digite V)\n");
+	printf("Escolha: ");
+	scanf(" %c", &dec);
+	while(dec!='v'){
+	    printf("Comando inválido, digite novamente: ");
+		scanf(" %c", &dec);
+	}
+	switch(dec){
+	    case 'v':
+	        vendas(d3, sald);
+	}
 }
 
 //submenu financeiro
