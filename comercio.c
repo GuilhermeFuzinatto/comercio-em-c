@@ -7,6 +7,7 @@ int main();
 int submenus(char dec, float sald);
 void estoque(char dec);
 void vendas(char dec, float sald);
+void pagamento(float total);
 void financeiro(char dec, float sald);
 void despesas(char dec, float sald);
 void receitas(char dec, float sald);
@@ -96,10 +97,10 @@ void estoque(char dec) {
 void vendas(char dec, float sald) {
     char d2; //decisão: opções do menu principal
     char d3; //decisão: opções dos submenus
+    char conf; //decisão de confirmação
     int item; //para selecionar o item vendido
     int qtd; //para selecionar quantidade vendida
     float total; //total do valor vendido
-    char conf; //decisão de confirmação
     
 	printf("\nVendas\n");
 	printf("Itens Disponíveis:\n 001. Bosta - R$15,00\n 002. Coco - R$20,00\n 003. Merda - R$45,00\n");
@@ -135,13 +136,12 @@ void vendas(char dec, float sald) {
 	        }
 	        switch(conf){
 	            case 'n':
-	            
-	            
 	                vendas(d3, sald);
 	        }
 	        switch(item){
 	            case 001:
 	                total = qtd * 15.00;
+	                pagamento(total);
 	                printf("\nTotal vendido: R$%.2f \n", total);
 	                printf("Receita Registrada! \n");
 	                sald = sald + total;
@@ -170,6 +170,42 @@ void vendas(char dec, float sald) {
 	        submenus(d2, sald);
 	        break;
 	}
+}
+
+//forma de pagamento
+void pagamento(float total){
+    char fpag; //forma de pagamento
+    char conf; //decisão de confirmação
+    
+    do{
+	    printf("\nForma de Pagamento (D para dinheiro, C para cartão): ");
+	    scanf(" %c", &fpag);
+	    while(fpag!='d' && fpag!='c') {
+		    printf("Comando inválido, digite novamente: ");
+		    scanf(" %c", &fpag);
+	    }
+	    switch(fpag){
+	        case 'd':
+                if(total<=50){
+                    total = total - (total*0.05);
+                }else if(total<100){
+                    total = total - (total*0.10);
+                }else{
+                    total = total - (total*0.18);
+                }
+                break;
+	                
+	        case 'c':
+        	    printf("Pagamento OK? (S para sim, N para não)\n");
+        	    printf("Escolha: ");
+        	    scanf(" %c", &conf);
+        	    while(conf!='s' && conf!='n') {
+        		    printf("Comando inválido, digite novamente: ");
+        	        scanf(" %c", &conf);
+        	    }
+        	    break;
+        }
+	}while(conf=='n');
 }
 
 //submenu financeiro
