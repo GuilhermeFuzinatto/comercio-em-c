@@ -7,7 +7,7 @@ int main();
 int submenus(char dec, float sald);
 void estoque(char dec);
 void vendas(char dec, float sald);
-void pagamento(float total);
+float pagamento(float total);
 void financeiro(char dec, float sald);
 void despesas(char dec, float sald);
 void receitas(char dec, float sald);
@@ -141,8 +141,7 @@ void vendas(char dec, float sald) {
 	        switch(item){
 	            case 001:
 	                total = qtd * 15.00;
-	                pagamento(total);
-	                printf("\nTotal vendido: R$%.2f \n", total);
+	                printf("\nTotal vendido: R$%.2f \n", pagamento(total));
 	                printf("Receita Registrada! \n");
 	                sald = sald + total;
 	                vendas(d3, sald);
@@ -150,7 +149,7 @@ void vendas(char dec, float sald) {
 	               
 	            case 002:
 	                total = qtd * 20.00;
-	                printf("\nTotal vendido: R$%.2f \n", total);
+	                printf("\nTotal vendido: R$%.2f \n", pagamento(total));
 	                printf("Receita Registrada! \n");
 	                sald = sald + total;
 	                vendas(d3, sald);
@@ -158,7 +157,7 @@ void vendas(char dec, float sald) {
 	                
 	            case 003:
 	                total = qtd * 45.00;
-	                printf("\nTotal vendido: R$%.2f \n", total);
+	                printf("\nTotal vendido: R$%.2f \n", pagamento(total));
 	                printf("Receita Registrada! \n");
 	                sald = sald + total;
 	                vendas(d3, sald);
@@ -173,7 +172,7 @@ void vendas(char dec, float sald) {
 }
 
 //forma de pagamento
-void pagamento(float total){
+float pagamento(float total){
     char fpag; //forma de pagamento
     char conf; //decisão de confirmação
     
@@ -185,6 +184,7 @@ void pagamento(float total){
 		    scanf(" %c", &fpag);
 	    }
 	    switch(fpag){
+	        //cálculo do desconto do pagamento em dinheiro
 	        case 'd':
                 if(total<=50){
                     total = total - (total*0.05);
@@ -206,6 +206,8 @@ void pagamento(float total){
         	    break;
         }
 	}while(conf=='n');
+	
+	return total;
 }
 
 //submenu financeiro
