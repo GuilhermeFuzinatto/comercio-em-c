@@ -1,5 +1,3 @@
-//TOTAL VENDIDO POR ITEM NAO TA FUNCIONANDO
-
 //bibliotecas
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,12 +10,17 @@ void estoque(int dec);
 
 void vendas(int dec, float sald);
 float pagamento(float total);
-//void totalpitem(char dec, float sald, float total, int item, float vend001, float vend002, float vend003);
+void totalpitem(int dec, float sald, float total, int item, float vend001, float vend002, float vend003);
 
 void financeiro(int dec, float sald);
 void despesas(int dec, float sald);
 void receitas(int dec, float sald);
 void saldo(int dec, float sald);
+
+//variáveis globais
+float vend001 = 0;
+float vend002 = 0;
+float vend003 = 0;
 
 int main() {
 	//variáveis de decisão
@@ -109,11 +112,6 @@ void vendas(int dec, float sald) {
     int qtd; //para selecionar quantidade vendida
     float total; //total do valor vendido
     
-    //total vendido por cada item
-    float vend001 = 0;
-    float vend002 = 0;
-    float vend003 = 0;
-    
 	printf("\nVendas\n");
 	printf("Itens Disponíveis:\n 001. Bosta - R$15,00\n 002. Coco - R$20,00\n 003. Merda - R$45,00\n");
 	printf("Registrar Venda (digite 1)\n");
@@ -185,9 +183,7 @@ void vendas(int dec, float sald) {
 	        
 	    //total vendido por categoria
 	    case 2:
-	        //totalpitem(d4, sald, total, item, vend001, vend002, vend003);
-	        printf("ninguem fez isso ainda, eu nao consigo faze, eu nao vo faze agora, vai se fuder");
-	        exit(0);
+	        totalpitem(d4, sald, total, item, vend001, vend002, vend003);
 	    
 	    //voltar ao menu principal
 	    case 0:
@@ -211,7 +207,6 @@ float pagamento(float total){
 		    scanf(" %d", &fpag);
 	    }
 	    switch(fpag){
-	        //cálculo do devend001, float vend002, float vend003sconto do pagamento em dinheiro
 	        case 1:
                 if(total<=50){
                     total = total - (total*0.05);
@@ -241,36 +236,25 @@ float pagamento(float total){
 	return total;
 }
 
-/*
-void totalpitem(char dec, float sald, float total, int item, float vend001, float vend002, float vend003){
-    char d3; //decisão: opções dos submenus
-    
-    if(item==001){
-        tvend001 = vend001 + total;
-        printf("%d, %f", item, vend001);
-    }else if(item==002){
-        tvend002 = vend002 + total;
-    }else if(item==003){
-        tvend003 = vend003 + total;
-    }
+void totalpitem(int dec, float sald, float total, int item, float vend001, float vend002, float vend003){
+    int d3; //decisão: opções dos submenus
     
     printf("Valor Vendido por Item");
-	printf("\nItem 001: %.2f", tvend001);
-	printf("\nItem 002: %.2f", tvend002);
-	printf("\nItem 003: %.2f", tvend003);
-	printf("\nVoltar (digite V)\n");
+	printf("\nItem 001: %.2f", vend001);
+	printf("\nItem 002: %.2f", vend002);
+	printf("\nItem 003: %.2f", vend003);
+	printf("\nVoltar (digite 0)\n");
 	printf("Escolha: ");
-	scanf(" %c", &dec);
-	while(dec!='v'){
+	scanf(" %d", &dec);
+	while(dec!=0){
 	    printf("Comando inválido, digite novamente: ");
-		scanf(" %c", &dec);
+		scanf(" %d", &dec);
 	}
 	switch(dec){
-	    case 'v':
+	    case 0:
 	        vendas(d3, sald);
 	}
 }
-*/
 
 //submenu financeiro
 void financeiro(int dec, float sald) {
