@@ -21,12 +21,15 @@ void saldo(int dec, float sald);
 float vend001 = 0;
 float vend002 = 0;
 float vend003 = 0;
+int qtd001 = 0;
+int qtd002 = 0;
+int qtd003 = 0;
 
 int main() {
 	//variáveis de decisão
 	int d2; //decisão: opções do menu principal
 	
-	//variáaveis numéricas
+	//variáveis numéricas
 	float sald = 0; // saldo atual
 
 	//abrir submenus
@@ -74,7 +77,11 @@ int submenus(int dec, float sald) {
 
 	//encerrar programa
 	case 0:
-		printf("\nEncerrado");
+	    printf("\nVendas Item 001: R$%.2f ; Quantidade: %d", vend001, qtd001);
+	    printf("\nVendas Item 002: R$%.2f ; Quantidade: %d", vend002, qtd002);
+	    printf("\nVendas Item 003: R$%.2f ; Quantidade: %d", vend003, qtd003);
+	    printf("\nSaldo final: R$%.2f", sald);
+		printf("\n\nEncerrado");
 		exit(0);
 	}
 }
@@ -153,30 +160,33 @@ void vendas(int dec, float sald) {
 	            case 001:
 	                total = qtd * 15.00;
 	                total = pagamento(total);
-	                printf("\nTotal vendido: R$%.2f \n", total);
+	                printf("\n\nTotal vendido: R$%.2f \n", total);
 	                printf("Receita Registrada! \n");
 	                sald = sald + total;
 	                vend001 = vend001 + total;
+	                qtd001 = qtd001 + qtd;
 	                vendas(d3, sald);
 	                break;
 	               
 	            case 002:
 	                total = qtd * 20.00;
 	                total = pagamento(total);
-	                printf("\nTotal vendido: R$%.2f \n", total);
+	                printf("\n\nTotal vendido: R$%.2f \n", total);
 	                printf("Receita Registrada! \n");
 	                sald = sald + total;
 	                vend002 = vend002 + total;
+	                qtd002 = qtd002 + qtd;
 	                vendas(d3, sald);
 	                break;
 	                
 	            case 003:
 	                total = qtd * 45.00;
 	                total = pagamento(total);
-	                printf("\nTotal vendido: R$%.2f \n", total);
+	                printf("\n\nTotal vendido: R$%.2f \n", total);
 	                printf("Receita Registrada! \n");
 	                sald = sald + total;
 	                vend003 = vend003 + total;
+	                qtd003 = qtd003 + qtd;
 	                vendas(d3, sald);
 	                break;
 	        }
@@ -215,13 +225,19 @@ float pagamento(float total){
                 }else{
                     total = total - (total*0.18);
                 }
+                printf("Valor da compra: R$%.2f \n", total);
                 printf("Qual o valor dado pelo cliente? R$");
                 scanf("%f", &vpag);
+                while(vpag<total){
+                    printf("Valor inválido, digite novamente: R$");
+                    scanf("%f", &vpag);
+                }
                 troco = vpag - total;
                 printf("Troco a ser retornado: R$%.2f", troco);
                 break;
 	                
 	        case 2:
+	            printf("Valor da compra: R$%.2f \n", total);
         	    printf("Pagamento OK? (1 para sim, 2 para não)\n");
         	    printf("Escolha: ");
         	    scanf(" %d", &conf);
@@ -239,10 +255,10 @@ float pagamento(float total){
 void totalpitem(int dec, float sald, float total, int item, float vend001, float vend002, float vend003){
     int d3; //decisão: opções dos submenus
     
-    printf("Valor Vendido por Item");
-	printf("\nItem 001: %.2f", vend001);
-	printf("\nItem 002: %.2f", vend002);
-	printf("\nItem 003: %.2f", vend003);
+    printf("Valor e Quantidade Vendida por Item");
+	printf("\nItem 001 - Valor Vendido: R$%.2f ; Quantidade: %d", vend001, qtd001);
+	printf("\nItem 002 - Valor Vendido: R$%.2f ; Quantidade: %d", vend002, qtd002);
+	printf("\nItem 003 - Valor Vendido: R$%.2f ; Quantidade: %d", vend003, qtd003);
 	printf("\nVoltar (digite 0)\n");
 	printf("Escolha: ");
 	scanf(" %d", &dec);
