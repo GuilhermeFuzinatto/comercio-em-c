@@ -4,44 +4,39 @@
 
 //funções utilizadas
 int main();
-int submenus(int dec, float sald);
+int submenus();
 
-void estoque(int dec);
+void estoque();
 
-void vendas(int dec, float sald);
+void vendas();
 float pagamento(float total);
-void totalpitem(int dec, float sald, float total, int item, float vend001, float vend002, float vend003);
+void totalpitem(float total, int item, float vend001, float vend002, float vend003);
 
-void financeiro(int dec, float sald);
-void despesas(int dec, float sald);
-void receitas(int dec, float sald);
-void saldo(int dec, float sald);
+void financeiro();
+void despesas();
+void receitas();
+void saldo();
 
 //variáveis globais
-float vend001 = 0;
-float vend002 = 0;
-float vend003 = 0;
-int qtd001 = 0;
-int qtd002 = 0;
-int qtd003 = 0;
+float sald = 0; //saldo total
+float vend001 = 0; //valor vendio item 001
+float vend002 = 0; //valor vendio item 002
+float vend003 = 0; //valor vendio item 003
+int qtd001 = 0; //quantidade vendida item 001
+int qtd002 = 0; //quantidade vendida item 002
+int qtd003 = 0; //quantidade vendida item 003
+int d; //decisões no programa
 
 int main() {
-	//variáveis de decisão
-	int d2; //decisão: opções do menu principal
-	
-	//variáveis numéricas
-	float sald = 0; // saldo atual
-
+    
 	//abrir submenus
-	submenus(d2, sald);
+	submenus(sald);
 	
     return 0;
 }
 
 //abrir submenus
-int submenus(int dec, float sald) {
-    //variáveis de decisão
-	int d3; //decisão: opções dos submenus
+int submenus() {
     
     //abrir os submenus
     printf("\nO que deseja?\n");
@@ -50,29 +45,28 @@ int submenus(int dec, float sald) {
 	printf("Abrir Controle Financeiro (digite 3)\n");
 	printf("Sair (digite 0)\n\n");
 	printf("Escolha: ");
-	scanf(" %d", &dec);
+	scanf(" %d", &d);
 	
 	//tratamento de erro
-	while(dec!=1 && dec!=2 && dec!=3 && dec!=0) {
+	while(d!=1 && d!=2 && d!=3 && d!=0) {
 		printf("Comando inválido, digite novamente: ");
-		
-		scanf(" %d", &dec);
+		scanf(" %d", &d);
 	}
 
-	switch(dec) {
+	switch(d) {
 	//submenu estoque
 	case 1:
-		estoque(d3);
+		estoque();
 		break;
 
 	//submenu vendas
 	case 2:
-		vendas(d3, sald);
+		vendas();
 		break;
 
 	//submenu financeiro
 	case 3:
-		financeiro(d3, sald);
+		financeiro();
 		break;
 
 	//encerrar programa
@@ -87,20 +81,20 @@ int submenus(int dec, float sald) {
 }
 
 //submenu estoque
-void estoque(int dec) {
+void estoque() {
 	printf("\nEstoque\n");
 	printf("Itens Disponíveis:\n 1. Bosta - 10 Unidades\n 2. Coco - 10 Unidades \n 3. Merda - 10 Unidades\n");
 	printf("Voltar (digite 0)\n\n");
 	printf("Escolha: ");
-	scanf(" %d", &dec);
+	scanf(" %d", &d);
 	
 	//tratamento de erro
-	while(dec!=0) {
+	while(d!=0) {
 		printf("Comando inválido, digite novamente: ");
-		scanf(" %d", &dec);
+		scanf(" %d", &d);
 	}
 	
-	switch(dec){
+	switch(d){
 	    
 	    //voltar ao menu principal
 	    case 0:
@@ -110,11 +104,7 @@ void estoque(int dec) {
 }
 
 //submenu vendas
-void vendas(int dec, float sald) {
-    int d2; //decisão: opções do menu principal
-    int d3; //decisão: opções dos submenus
-    int d4; //decisão nas opções do submenu
-    int conf; //decisão de confirmação
+void vendas() {
     int item; //para selecionar o item vendido
     int qtd; //para selecionar quantidade vendida
     float total; //total do valor vendido
@@ -125,15 +115,15 @@ void vendas(int dec, float sald) {
 	printf("Total Vendido Por Item (digite 2)\n");
 	printf("Voltar (digite 0)\n\n");
 	printf("Escolha: ");
-	scanf(" %d", &dec);
+	scanf(" %d", &d);
 	
 	//tratamento de erro
-	while(dec!=1 && dec!=2 && dec!=0) {
+	while(d!=1 && d!=2 && d!=0) {
 		printf("Comando inválido, digite novamente: ");
-		scanf(" %d", &dec);
+		scanf(" %d", &d);
 	}
 	
-	switch(dec){
+	switch(d){
 	    
 	    //registrar venda
 	    case 1:
@@ -147,14 +137,15 @@ void vendas(int dec, float sald) {
 	        scanf("%d", &qtd);
 	        printf("\nConfirmar? (1 para sim, 2 para não)\n");
 	        printf("Escolha: ");
-	        scanf(" %d", &conf);
-	        while(conf!=1 && conf!=2) {
+	        scanf(" %d", &d);
+	        while(d!=1 && d!=2) {
 		        printf("Comando inválido, digite novamente: ");
-		        scanf(" %d", &conf);
+		        scanf(" %d", &d);
 	        }
-	        switch(conf){
+	        switch(d){
 	            case 2:
-	                vendas(d3, sald);
+	                printf("\nVenda Cancelada!\n");
+	                vendas(sald);
 	        }
 	        switch(item){
 	            case 001:
@@ -165,7 +156,7 @@ void vendas(int dec, float sald) {
 	                sald = sald + total;
 	                vend001 = vend001 + total;
 	                qtd001 = qtd001 + qtd;
-	                vendas(d3, sald);
+	                vendas();
 	                break;
 	               
 	            case 002:
@@ -176,7 +167,7 @@ void vendas(int dec, float sald) {
 	                sald = sald + total;
 	                vend002 = vend002 + total;
 	                qtd002 = qtd002 + qtd;
-	                vendas(d3, sald);
+	                vendas();
 	                break;
 	                
 	            case 003:
@@ -187,17 +178,17 @@ void vendas(int dec, float sald) {
 	                sald = sald + total;
 	                vend003 = vend003 + total;
 	                qtd003 = qtd003 + qtd;
-	                vendas(d3, sald);
+	                vendas();
 	                break;
 	        }
 	        
 	    //total vendido por categoria
 	    case 2:
-	        totalpitem(d4, sald, total, item, vend001, vend002, vend003);
+	        totalpitem(total, item, vend001, vend002, vend003);
 	    
 	    //voltar ao menu principal
 	    case 0:
-	        submenus(d2, sald);
+	        submenus();
 	        break;
 	}
 }
@@ -240,20 +231,19 @@ float pagamento(float total){
 	            printf("Valor da compra: R$%.2f \n", total);
         	    printf("Pagamento OK? (1 para sim, 2 para não)\n");
         	    printf("Escolha: ");
-        	    scanf(" %d", &conf);
-        	    while(conf!=1 && conf!=2) {
+        	    scanf(" %d", &d);
+        	    while(d!=1 && d!=2) {
         		    printf("Comando inválido, digite novamente: ");
-        	        scanf(" %d", &conf);
+        	        scanf(" %d", &d);
         	    }
         	    break;
         }
-	}while(conf==2);
+	}while(d==2);
 	
 	return total;
 }
 
-void totalpitem(int dec, float sald, float total, int item, float vend001, float vend002, float vend003){
-    int d3; //decisão: opções dos submenus
+void totalpitem(float total, int item, float vend001, float vend002, float vend003){
     
     printf("Valor e Quantidade Vendida por Item");
 	printf("\nItem 001 - Valor Vendido: R$%.2f ; Quantidade: %d", vend001, qtd001);
@@ -261,50 +251,49 @@ void totalpitem(int dec, float sald, float total, int item, float vend001, float
 	printf("\nItem 003 - Valor Vendido: R$%.2f ; Quantidade: %d", vend003, qtd003);
 	printf("\nVoltar (digite 0)\n");
 	printf("Escolha: ");
-	scanf(" %d", &dec);
-	while(dec!=0){
+	scanf(" %d", &d);
+	while(d!=0){
 	    printf("Comando inválido, digite novamente: ");
-		scanf(" %d", &dec);
+		scanf(" %d", &d);
 	}
-	switch(dec){
+	switch(d){
 	    case 0:
-	        vendas(d3, sald);
+	        vendas();
 	}
 }
 
 //submenu financeiro
-void financeiro(int dec, float sald) {
-    int d2; //decisão: opções do menu principal
-    int d4; //decisão nas opções do submenu
+void financeiro() {
+
 	printf("\nFinanceiro\n");
 	printf("Registrar Despesas (digite 1)\n");
 	printf("Registrar Receitas (digite 2)\n");
 	printf("Consultar Saldo (digite 3)\n");
 	printf("Voltar (digite 0)\n\n");
 	printf("Escolha: ");
-	scanf(" %d", &dec);
-	while(dec!=1 && dec!=2 && dec!=3 && dec!=0) {
+	scanf(" %d", &d);
+	while(d!=1 && d!=2 && d!=3 && d!=0) {
 		printf("Comando inválido, digite novamente: ");
-		scanf(" %d", &dec);
+		scanf(" %d", &d);
 	}
-	switch(dec) {
+	switch(d){
 	    //registrar despesas
         case 1:
-            despesas(d4, sald);
+            despesas();
 	        break;
 	    
 	    //registrar receitas
 	    case 2:
-	        receitas(d4, sald);
+	        receitas();
 	        break;
 	       
 	    //consultar saldo
 	    case 3:
-	        saldo(d4, sald);
+	        saldo();
 	        break;
 	        
 	    case 0:
-	        submenus(d2, sald);
+	        submenus();
 	        break;
 	    
 	}
@@ -312,67 +301,65 @@ void financeiro(int dec, float sald) {
 
 
 //submenu financeiro: opção despesas
-void despesas(int dec, float sald) {
-    int d3; //decisão: opções dos submenus
+void despesas() {
     float des; //valor da despesa
-    int conf; //decisão de confirmação
+    
     printf("\nValor da Despesa: R$");
 	scanf(" %f", &des);
 	printf("\nConfirmar? (1 para sim, 2 para não)\n");
 	printf("Escolha: ");
-	scanf(" %d", &conf);
-	while(conf!=1 && conf!=2) {
+	scanf(" %d", &d);
+	while(d!=1 && d!=2) {
 		printf("Comando inválido, digite novamente: ");
-	    scanf(" %d", &conf);
+	    scanf(" %d", &d);
 	}
-	switch(conf){
+	switch(d){
 	    case 2:
-	    financeiro(d3, sald);
+	    financeiro();
 	}
 	sald = sald - des;
 	printf("Despesa Registrada!\n");
-	financeiro(d3, sald);
+	financeiro();
 }
 
 //submenu financeiro: opção receitas
-void receitas(int dec, float sald) {
-    int d3; //decisão: opções dos submenus
+void receitas() {
     float rec; //valor da receita
-    int conf; //decisão de confirmação
+
     printf("\nValor da Receita: R$");
 	scanf(" %f", &rec);
 	printf("\nConfirmar? (1 para sim, 2 para não)\n");
 	printf("Escolha: ");
-	scanf(" %d", &conf);
-	while(conf!=1 && conf!=2) {
+	scanf(" %d", &d);
+	while(d!=1 && d!=2) {
 		printf("Comando inválido, digite novamente: ");
-	    scanf(" %d", &conf);
+	    scanf(" %d", &d);
 	}
-	switch(conf){
+	switch(d){
 	    case 2:
-	    financeiro(d3, sald);
+	    financeiro();
 	}
 	sald = sald + rec;
 	printf("Receita Registrada!\n");
-	financeiro(d3, sald);
+	financeiro();
 }
 
 //submenu financeiro: opção saldo
-void saldo(int dec, float sald) {
-    int d3; //decisão: opções dos submenus
+void saldo() {
+
     printf("\nSeu Saldo Atual\n");
     printf("R$%.2f \n", sald);
     printf("Voltar (digite 0)\n\n");
     printf("Escolha: ");
-    scanf(" %d", &dec);
+    scanf(" %d", &d);
 
-    while(dec!=0) {
+    while(d!=0) {
 		printf("Comando inválido, digite novamente: ");
-		scanf(" %d", &dec);
+		scanf(" %d", &d);
 	}
-    switch(dec) {
+    switch(d) {
         case 0:
-            financeiro(d3, sald);
+            financeiro();
             break;
     }
 }
