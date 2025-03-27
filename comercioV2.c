@@ -83,23 +83,33 @@ int submenus() {
 void estoque() {
 	printf("\nEstoque\n");
 	printf("Itens Disponíveis:\n %s. Bosta - %d Unidades\n %s. Coco - %d Unidades \n %s. Merda - %d Unidades\n", id[0], uni[0], id[1], uni[1], id[2], uni[2]);
+	printf("Adicionar Item (digite 1)\n");
 	printf("Voltar (digite 0)\n\n");
 	printf("Escolha: ");
 	scanf(" %d", &d);
 	
 	//tratamento de erro
-	while(d!=0) {
+	while(d!=0 && d!=1) {
 		printf("Comando inválido, digite novamente: ");
 		scanf(" %d", &d);
 	}
 	
 	switch(d){
+	    //adicionar item
+	    case 1:
+	        additem();
 	    
 	    //voltar ao menu principal
 	    case 0:
 	        main();
 	        break;
 	}
+}
+
+//adicionar item TERMINAR
+void additem(){
+    printf("\nAdicionar Item\n");
+    printf("depois eu termino");
 }
 
 //submenu vendas
