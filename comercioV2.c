@@ -7,6 +7,7 @@ int main();
 int submenus();
 
 void estoque();
+void additem();
 
 void vendas();
 float pagamento(float total);
