@@ -25,6 +25,7 @@ int qtdvend[] = {0, 0, 0}; //quantidade vendida de cada item
 int uni[] = {10, 10, 10}; //quantidade dos itens em estoque
 float preco[] = {15, 20, 45}; //preço dos itens em estoque
 char*id[] = {"001", "002", "003"}; //id dos itens em estoque
+char*nome[] = {"Bosta", "Coco", "Merda"}; //nome dos itens em estoque
 int d; //decisões no programa
 
 int main() {
@@ -69,7 +70,7 @@ int submenus() {
 		financeiro();
 		break;
 
-	//encerrar programa, float vend001, float vend002, float vend003
+	//encerrar programa
 	case 0:
 	    printf("\nVendas Item %s: R$%.2f ; Quantidade: %d", id[0], vend[0], qtdvend[0]);
 	    printf("\nVendas Item %s: R$%.2f ; Quantidade: %d", id[1], vend[1], qtdvend[1]);
@@ -83,7 +84,7 @@ int submenus() {
 //submenu estoque
 void estoque() {
 	printf("\nEstoque\n");
-	printf("Itens Disponíveis:\n %s. Bosta - %d Unidades\n %s. Coco - %d Unidades \n %s. Merda - %d Unidades\n", id[0], uni[0], id[1], uni[1], id[2], uni[2]);
+	printf("Itens Disponíveis:\n %s. %s - %d Unidades\n %s. %s - %d Unidades \n %s. %s - %d Unidades\n", id[0], nome[0], uni[0], id[1], nome[1], uni[1], id[2], nome[2], uni[2]);
 	printf("Adicionar Item (digite 1)\n");
 	printf("Voltar (digite 0)\n\n");
 	printf("Escolha: ");
@@ -110,7 +111,9 @@ void estoque() {
 //adicionar item TERMINAR
 void additem(){
     printf("\nAdicionar Item\n");
-    printf("depois eu termino");
+    printf("nao terminei ainda\n");
+    estoque();
+
 }
 
 //submenu vendas
@@ -120,7 +123,7 @@ void vendas() {
     float total; //total do valor vendido
     
 	printf("\nVendas\n");
-	printf("Itens Disponíveis:\n %s. Bosta - R$%.2f\n %s. Coco - R$%.2f\n %s. Merda - R$%.2f\n", id[0], preco[0], id[1], preco[1], id[2], preco[2]);
+	printf("Itens Disponíveis:\n %s. %s - R$%.2f\n %s. %s - R$%.2f\n %s. %s - R$%.2f\n", id[0], nome[0], preco[0], id[1], nome[1], preco[1], id[2], nome[2], preco[2]);
 	printf("Registrar Venda (digite 1)\n");
 	printf("Total Vendido Por Item (digite 2)\n");
 	printf("Voltar (digite 0)\n\n");
