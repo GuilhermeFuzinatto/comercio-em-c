@@ -19,13 +19,16 @@ void receitas();
 void saldo();
 
 //variáveis globais
+#define tam 50
+int i = tam - 47;
 float sald = 0; //saldo total
-float vend[] = {0, 0, 0}; //valor vendido por cada item
-int qtdvend[] = {0, 0, 0}; //quantidade vendida de cada item
-int uni[] = {10, 10, 10}; //quantidade dos itens em estoque
-float preco[] = {15, 20, 45}; //preço dos itens em estoque
-char*id[] = {"001", "002", "003"}; //id dos itens em estoque
-char*nome[] = {"Bosta", "Coco", "Merda"}; //nome dos itens em estoque
+float vend[tam] = {0, 0, 0}; //valor vendido por cada item
+int qtdvend[tam] = {0, 0, 0}; //quantidade vendida de cada item
+int uni[tam] = {10, 10, 10}; //quantidade dos itens em estoque
+float preco[tam] = {15, 20, 45}; //preço dos itens em estoque
+char*id[tam] = {"001", "002", "003"}; //id dos itens em estoque
+char*nome[tam] = {"Bosta", "Coco", "Merda"}; //nome dos itens em estoque
+char**idin = 
 int d; //decisões no programa
 
 int main() {
@@ -111,8 +114,18 @@ void estoque() {
 //adicionar item TERMINAR
 void additem(){
     printf("\nAdicionar Item\n");
-    printf("nao terminei ainda\n");
-    estoque();
+    
+    printf("ID do Item: ");
+    scanf(" %s", &id[i]);
+    
+    printf("Nome do Item: ");
+    scanf(" %s", &nome[i]);
+    
+    printf("Unidades Disponíveis: ");
+    scanf(" %d", &uni[i]);
+    
+    printf("Preço do Item: ");
+    scanf(" %f", &preco[i]);
 
 }
 
