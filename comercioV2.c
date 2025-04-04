@@ -1,6 +1,7 @@
 //bibliotecas
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 //funções utilizadas
 int main();
@@ -18,17 +19,19 @@ void despesas();
 void receitas();
 void saldo();
 
+void testador();
+
 //variáveis globais
 #define tam 50
-int i = tam - 47;
+int i = 3;
 float sald = 0; //saldo total
+char strinput[tam];
 float vend[tam] = {0, 0, 0}; //valor vendido por cada item
 int qtdvend[tam] = {0, 0, 0}; //quantidade vendida de cada item
 int uni[tam] = {10, 10, 10}; //quantidade dos itens em estoque
 float preco[tam] = {15, 20, 45}; //preço dos itens em estoque
 char*id[tam] = {"001", "002", "003"}; //id dos itens em estoque
 char*nome[tam] = {"Bosta", "Coco", "Merda"}; //nome dos itens em estoque
-char**idin = 
 int d; //decisões no programa
 
 int main() {
@@ -47,12 +50,13 @@ int submenus() {
 	printf("Abrir Controle de Estoque (digite 1)\n");
 	printf("Abrir Controle de Venda (digite 2)\n");
 	printf("Abrir Controle Financeiro (digite 3)\n");
+	printf("TESTADOR (digite 4)\n");
 	printf("Sair (digite 0)\n\n");
 	printf("Escolha: ");
 	scanf(" %d", &d);
 	
 	//tratamento de erro
-	while(d!=1 && d!=2 && d!=3 && d!=0) {
+	while(d!=1 && d!=2 && d!=3 && d!=4 && d!=0) {
 		printf("Comando inválido, digite novamente: ");
 		scanf(" %d", &d);
 	}
@@ -72,6 +76,11 @@ int submenus() {
 	case 3:
 		financeiro();
 		break;
+		
+	//TESTADOR
+	case 4:
+	    testador();
+	    break;
 
 	//encerrar programa
 	case 0:
@@ -87,7 +96,13 @@ int submenus() {
 //submenu estoque
 void estoque() {
 	printf("\nEstoque\n");
-	printf("Itens Disponíveis:\n %s. %s - %d Unidades\n %s. %s - %d Unidades \n %s. %s - %d Unidades\n", id[0], nome[0], uni[0], id[1], nome[1], uni[1], id[2], nome[2], uni[2]);
+	
+	//visualizaçãao dos itens
+	printf("Itens Disponíveis:\n");
+	for(int cont = 0; cont < i; cont++){
+	    printf("%s. %s - %d Unidades\n", id[cont], nome[cont], uni[cont]);
+	}
+	
 	printf("Adicionar Item (digite 1)\n");
 	printf("Voltar (digite 0)\n\n");
 	printf("Escolha: ");
@@ -116,17 +131,27 @@ void additem(){
     printf("\nAdicionar Item\n");
     
     printf("ID do Item: ");
-    scanf(" %s", &id[i]);
+    fgets(strinput, sizeof(strinput), stdin);
+    fgets(strinput, sizeof(strinput), stdin);
+    strtok(strinput, "\n");
+    id[i] = strinput;
     
     printf("Nome do Item: ");
-    scanf(" %s", &nome[i]);
+    fgets(strinput, sizeof(strinput), stdin);
+    strtok(strinput, "\n");
+    nome[i] = strinput;
     
     printf("Unidades Disponíveis: ");
     scanf(" %d", &uni[i]);
     
     printf("Preço do Item: ");
     scanf(" %f", &preco[i]);
-
+    
+    i++;
+    
+    printf("\nItem Registrado!\n");
+    
+    estoque();
 }
 
 //submenu vendas
@@ -136,7 +161,11 @@ void vendas() {
     float total; //total do valor vendido
     
 	printf("\nVendas\n");
-	printf("Itens Disponíveis:\n %s. %s - R$%.2f\n %s. %s - R$%.2f\n %s. %s - R$%.2f\n", id[0], nome[0], preco[0], id[1], nome[1], preco[1], id[2], nome[2], preco[2]);
+	//visualizaçãao dos itens
+	printf("Itens Disponíveis:\n");
+	for(int cont = 0; cont < i; cont++){
+	    printf("%s. %s - R$%.2f\n", id[cont], nome[cont], preco[cont]);
+	}
 	printf("Registrar Venda (digite 1)\n");
 	printf("Total Vendido Por Item (digite 2)\n");
 	printf("Voltar (digite 0)\n\n");
@@ -378,7 +407,6 @@ void receitas() {
 
 //submenu financeiro: opção saldo
 void saldo() {
-
     printf("\nSeu Saldo Atual\n");
     printf("R$%.2f \n", sald);
     printf("Voltar (digite 0)\n\n");
@@ -394,4 +422,42 @@ void saldo() {
             financeiro();
             break;
     }
+}
+
+void testador() {
+    printf("\nBEM VINDO AO TESTADOR ONDE TUDO É TESTADO\n");
+    printf("\nID's\n");
+    for(int cont = 0; cont < i; cont++){
+        printf("Item %d: %s \n", (cont + 1), id[cont]);
+    }
+    printf("\nNOMES\n");
+    for(int cont = 0; cont < i; cont++){
+        printf("Item %d: %s \n", (cont + 1), nome[cont]);
+    }
+    printf("\nUNIDADES\n");
+    for(int cont = 0; cont < i; cont++){
+        printf("Item %d: %d \n", (cont + 1), uni[cont]);
+    }
+    printf("\nPREÇOS\n");
+    for(int cont = 0; cont < i; cont++){
+        printf("Item %d: %.2f \n", (cont + 1), preco[cont]);
+    }
+    
+    printf("Voltar (digite 0)\n\n");
+	printf("Escolha: ");
+	scanf(" %d", &d);
+	
+	//tratamento de erro
+	while(d!=0) {
+		printf("Comando inválido, digite novamente: ");
+		scanf(" %d", &d);
+	}
+	
+	switch(d){
+	    
+	    //voltar ao menu principal
+	    case 0:
+	        main();
+	        break;
+	}
 }
