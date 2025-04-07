@@ -22,10 +22,11 @@ void saldo();
 void testador();
 
 //variáveis globais
-#define tam 50
-int i = 3;
+#define tam 50 //tamanho geral dos vetores
+int i = 3; //espaço atual a ser preenchido nos vetores
 float sald = 0; //saldo total
-char strinput[tam];
+char idinput[tam]; //guarda inputs de id
+char nomeinput[tam]; //guarda inputs de nome
 float vend[tam] = {0, 0, 0}; //valor vendido por cada item
 int qtdvend[tam] = {0, 0, 0}; //quantidade vendida de cada item
 int uni[tam] = {10, 10, 10}; //quantidade dos itens em estoque
@@ -131,15 +132,25 @@ void additem(){
     printf("\nAdicionar Item\n");
     
     printf("ID do Item: ");
-    fgets(strinput, sizeof(strinput), stdin);
-    fgets(strinput, sizeof(strinput), stdin);
-    strtok(strinput, "\n");
-    id[i] = strinput;
+    fgets(idinput, sizeof(idinput), stdin);
+    fgets(idinput, sizeof(idinput), stdin);
+    strtok(idinput, "\n");
+    
+    //ARRUMAR TRATAMENTO DE ERRO
+    for(int cont = 1; cont < i; cont++){
+        if(idinput==id[cont]){
+            printf("ID já está em uso, digite novamente: ");
+            fgets(idinput, sizeof(idinput), stdin);
+            strtok(idinput, "\n");
+        }
+    }
+    
+    id[i] = idinput;
     
     printf("Nome do Item: ");
-    fgets(strinput, sizeof(strinput), stdin);
-    strtok(strinput, "\n");
-    nome[i] = strinput;
+    fgets(nomeinput, sizeof(nomeinput), stdin);
+    strtok(nomeinput, "\n");
+    nome[i] = nomeinput;
     
     printf("Unidades Disponíveis: ");
     scanf(" %d", &uni[i]);
