@@ -1,3 +1,5 @@
+//ARRUMAR: POR ALGUM MOTIVO DESCONHECIDO, INFORMAÇÕES DE ITENS PREVIAMENTE ADICIONADOS SÃO ALTERADAS AO ADICIONAR NOVO ITEM
+
 //bibliotecas
 #include <stdio.h>
 #include <stdlib.h>
@@ -85,9 +87,9 @@ int submenus() {
 
 	//encerrar programa
 	case 0:
-	    printf("\nVendas Item %s: R$%.2f ; Quantidade: %d", id[0], vend[0], qtdvend[0]);
-	    printf("\nVendas Item %s: R$%.2f ; Quantidade: %d", id[1], vend[1], qtdvend[1]);
-	    printf("\nVendas Item %s: R$%.2f ; Quantidade: %d", id[2], vend[2], qtdvend[2]);
+	    for(int cont = 0; cont < i; cont++){
+	        printf("\nVendas Item %s: R$%.2f ; Quantidade: %d", id[cont], vend[cont], qtdvend[cont]);
+    	}
 	    printf("\nSaldo final: R$%.2f", sald);
 		printf("\n\nEncerrado");
 		exit(0);
@@ -131,30 +133,42 @@ void estoque() {
 void additem(){
     printf("\nAdicionar Item\n");
     
-    printf("ID do Item: ");
-    fgets(idinput, sizeof(idinput), stdin);
-    fgets(idinput, sizeof(idinput), stdin);
-    strtok(idinput, "\n");
-    
-    //ARRUMAR TRATAMENTO DE ERRO
-    for(int cont = 1; cont < i; cont++){
-        if(idinput==id[cont]){
-            printf("ID já está em uso, digite novamente: ");
-            fgets(idinput, sizeof(idinput), stdin);
-            strtok(idinput, "\n");
-        }
+    //atribuir ID automaticamente ao item
+    if(i<10){
+        sprintf(idinput, "00%d", (i + 1));
+        id[i] = idinput;
+    }else if(i<100){
+        sprintf(idinput, "0%d", (i + 1));
+        id[i] = idinput;
+    }else{
+        sprintf(idinput, "%d", (i + 1));
+        id[i] = idinput;
     }
     
-    id[i] = idinput;
-    
+    //atribuir nome ao item
     printf("Nome do Item: ");
     fgets(nomeinput, sizeof(nomeinput), stdin);
+    fgets(nomeinput, sizeof(nomeinput), stdin);
     strtok(nomeinput, "\n");
+    
+    //ARRUMAR TRATAMENTO DE ERRO
+    /*
+    for(int cont = 0; cont < i; cont++){
+        if(strcmp(nomeinput, nome[cont])==0){
+            printf("Nome já está em uso, digite novamente: ");
+            fgets(nomeinput, sizeof(nomeinput), stdin);
+            strtok(nomeinput, "\n");
+        }
+    }
+    */
+    
     nome[i] = nomeinput;
     
+    //atribuir unidades ao item
     printf("Unidades Disponíveis: ");
     scanf(" %d", &uni[i]);
     
+    //atribuir preço ao item
     printf("Preço do Item: ");
     scanf(" %f", &preco[i]);
     
@@ -199,6 +213,20 @@ void vendas() {
 	            printf("Comando inválido, digite novamente: ");
 		        scanf(" %d", &item);
 	        }
+	        
+	        //POSSÍVEL FORMA DE CONFERIR FUTURAMENTE (CONSIDERAR) EU NAOA GUENTO AMIS EU VOU ME MATAR
+	        /*
+	        scanf("%s", item);
+	        for(int cont = 0; cont < i; cont++){
+                if(item==id[cont]){
+                    break;
+                }else if(item!=id[cont] && cont == (i - 1)){
+                    printf("ID inválido, digite novamente: ");
+                    scanf("%s", item);
+                }
+            }
+            */
+	        
 	        printf("Quantidade Vendida: ");
 	        scanf("%d", &qtd);
 	        while((item==001 && qtd>uni[0]) || (item==002 && qtd>uni[1]) || (item==003 && qtd>uni[2])){
@@ -318,9 +346,9 @@ float pagamento(float total){
 
 void totalpitem(float total, int item){
     printf("Valor e Quantidade Vendida por Item");
-	printf("\nItem %s - Valor Vendido: R$%.2f ; Quantidade: %d", id[0], vend[0], qtdvend[0]);
-	printf("\nItem %s - Valor Vendido: R$%.2f ; Quantidade: %d", id[1], vend[1], qtdvend[1]);
-	printf("\nItem %s - Valor Vendido: R$%.2f ; Quantidade: %d", id[2], vend[2], qtdvend[2]);
+	for(int cont = 0; cont < i; cont++){
+	    printf("\nItem %s - Valor Vendido: R$%.2f ; Quantidade: %d", id[cont], vend[cont], qtdvend[cont]);
+	}
 	printf("\nVoltar (digite 0)\n");
 	printf("Escolha: ");
 	scanf(" %d", &d);
