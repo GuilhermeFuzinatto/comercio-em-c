@@ -1,4 +1,4 @@
-//ARRUMAR: POR ALGUM MOTIVO DESCONHECIDO, INFORMAÇÕES DE ITENS PREVIAMENTE ADICIONADOS SÃO ALTERADAS AO ADICIONAR NOVO ITEM
+//ARRUMAR: CONTROLE DE VENDA - VENDA DE NOVOS ITENS (OPCIONAL - ID AUTOMATICO)
 
 //bibliotecas
 #include <stdio.h>
@@ -21,36 +21,29 @@ void despesas();
 void receitas();
 void saldo();
 
-//void testador();
+void testador();
 
 //variáveis globais
-//#define tam 50 //tamanho geral dos vetores
 int i = 3; //espaço atual a ser preenchido nos vetores
 float sald = 0; //saldo total
-/*
-char idinput[tam]; //guarda inputs de id
-char nomeinput[tam]; //guarda inputs de nome
-*/
 
+//dados dos itens
 struct Item{
     float vend;
     int qtdvend;
     int uni;
+    char id[4];
     float preco;
-    char id[3];
     char nome[50];
 };
 
-struct Item itens[50];
+//itens já em estoque
+struct Item itens[50] = {
+    {0, 0, 10, "001", 15, "Bosta"},
+    {0, 0, 10, "002", 20, "Coco"},
+    {0, 0, 10, "003", 45, "Merda"},
+};
 
-/*
-float vend[tam] = {0, 0, 0}; //valor vendido por cada item
-int qtdvend[tam] = {0, 0, 0}; //quantidade vendida de cada item
-int uni[tam] = {10, 10, 10}; //quantidade dos itens em estoque
-float preco[tam] = {15, 20, 45}; //preço dos itens em estoque
-char*id[tam] = {"001", "002", "003"}; //id dos itens em estoque
-char*nome[tam] = {"Bosta", "Coco", "Merda"}; //nome dos itens em estoque
-*/
 int d; //decisões no programa
 
 int main() {
@@ -149,14 +142,10 @@ void estoque() {
 void additem(){
     printf("\nAdicionar Item\n");
     
-    //atribuir ID automaticamente ao item
-    if(i<10){
-        sprintf(itens[i].id, "00%d", (i + 1));
-    }else if(i<100){
-        sprintf(itens[i].id, "0%d", (i + 1));
-    }else{
-        sprintf(itens[i].id, "%d", (i + 1));
-    }
+    printf("ID do Item: ");
+    fgets(itens[i].id, sizeof(itens[i].id), stdin);
+    fgets(itens[i].id, sizeof(itens[i].id), stdin);
+    strtok(itens[i].id, "\n");
     
     //atribuir nome ao item
     printf("Nome do Item: ");
@@ -192,9 +181,10 @@ void additem(){
 
 //submenu vendas
 void vendas() {
-    int item; //para selecionar o item vendido
+    char item[4]; //para selecionar o item vendido
     int qtd; //para selecionar quantidade vendida
     float total; //total do valor vendido
+    int achaitem = 0; //verifica se o ID digitado existe no estoque
     
 	printf("\nVendas\n");
 	//visualizaçãao dos itens
@@ -218,25 +208,26 @@ void vendas() {
 	    
 	    //registrar venda
 	    case 1:
-	        printf("\nItem Vendido (digite o número do item): ");
-	        scanf("%d", &item);
-	        while(item!=001 && item!=002 && item!=003){
-	            printf("Comando inválido, digite novamente: ");
-		        scanf(" %d", &item);
+	        printf("\nItem Vendido (digite o ID do item): ");
+	        scanf(" %s", item);
+	        
+	        for(int cont = 0; cont < i; cont++){
+	            if(strcmp(item, itens[cont].id) == 0){
+                    achaitem = cont;
+                    break;
+                }
 	        }
 	        
-	        //POSSÍVEL FORMA DE CONFERIR FUTURAMENTE (CONSIDERAR) EU NAOA GUENTO AMIS EU VOU ME MATAR
-	        /*
-	        scanf("%s", item);
-	        for(int cont = 0; cont < i; cont++){
-                if(item==id[cont]){
-                    break;
-                }else if(item!=id[cont] && cont == (i - 1)){
-                    printf("ID inválido, digite novamente: ");
-                    scanf("%s", item);
-                }
-            }
-            */
+	        while(achaitem == 0){
+                printf("ID inválido, digite novamente: ");
+                scanf(" %s", item);
+                for(int cont = 0; cont < i; cont++){
+    	            if(strcmp(item, itens[cont].id) == 0){
+                        achaitem = cont;
+                        break;
+                    }
+    	        }
+	        }
 	        
 	        printf("Quantidade Vendida: ");
 	        scanf("%d", &qtd);
@@ -474,24 +465,23 @@ void saldo() {
     }
 }
 
-/*
 void testador() {
     printf("\nBEM VINDO AO TESTADOR ONDE TUDO É TESTADO\n");
     printf("\nID's\n");
     for(int cont = 0; cont < i; cont++){
-        printf("Item %d: %s \n", (cont + 1), id[cont]);
+        printf("Item %d: %s \n", (cont + 1), itens[cont].id);
     }
     printf("\nNOMES\n");
     for(int cont = 0; cont < i; cont++){
-        printf("Item %d: %s \n", (cont + 1), nome[cont]);
+        printf("Item %d: %s \n", (cont + 1), itens[cont].nome);
     }
     printf("\nUNIDADES\n");
     for(int cont = 0; cont < i; cont++){
-        printf("Item %d: %d \n", (cont + 1), uni[cont]);
+        printf("Item %d: %d \n", (cont + 1), itens[cont].uni);
     }
     printf("\nPREÇOS\n");
     for(int cont = 0; cont < i; cont++){
-        printf("Item %d: %.2f \n", (cont + 1), preco[cont]);
+        printf("Item %d: %.2f \n", (cont + 1), itens[cont].preco);
     }
     
     printf("Voltar (digite 0)\n\n");
@@ -512,4 +502,3 @@ void testador() {
 	        break;
 	}
 }
-*/
