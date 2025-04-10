@@ -1,3 +1,5 @@
+
+,/54-*95263+,,3
 //bibliotecas
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,16 +47,16 @@ struct Item itens[50] = {
 int d; //decisões no programa
 
 int main() {
-    
+
 	//abrir submenus
 	submenus(sald);
-	
+
     return 0;
 }
 
 //abrir submenus
 int submenus() {
-    
+
     //abrir os submenus
     printf("\n\033[1mO que deseja?\033[0m\n");
 	printf("Abrir Controle de Estoque \033[1m(digite 1)\033[0m\n");
@@ -64,7 +66,7 @@ int submenus() {
 	printf("Sair \033[1m(digite 0)\033[0m\n\n");
 	printf("\033[1mEscolha: \033[0m");
 	scanf(" %d", &d);
-	
+
 	//tratamento de erro
 	while(d!=1 && d!=2 && d!=3 && /*d!=4 &&*/ d!=0) {
 		printf("\033[1mComando inválido, digite novamente: \033[0m");
@@ -86,7 +88,7 @@ int submenus() {
 	case 3:
 		financeiro();
 		break;
-		
+
 	/*TESTADOR
 	case 4:
 	    testador();
@@ -107,29 +109,29 @@ int submenus() {
 //submenu estoque
 void estoque() {
 	printf("\n\033[1mEstoque\033[0m\n");
-	
+
 	//visualizaçãao dos itens
 	printf("Itens Disponiveis:\n");
 	for(int cont = 0; cont < i; cont++){
 	    printf("%s. %s - %d Unidades\n", itens[cont].id, itens[cont].nome, itens[cont].uni);
 	}
-	
+
 	printf("Adicionar Item \033[1m(digite 1)\033[0m\n");
 	printf("Voltar \033[1m(digite 0)\033[0m\n\n");
 	printf("\033[1mEscolha: \033[0m");
 	scanf(" %d", &d);
-	
+
 	//tratamento de erro
 	while(d!=0 && d!=1) {
 		printf("\033[1mComando inválido, digite novamente: \033[0m");
 		scanf(" %d", &d);
 	}
-	
+
 	switch(d){
 	    //adicionar item
 	    case 1:
 	        additem();
-	    
+
 	    //voltar ao menu principal
 	    case 0:
 	        main();
@@ -140,12 +142,12 @@ void estoque() {
 //adicionar item TERMINAR
 void additem(){
     printf("\n\033[1mAdicionar Item\033[0m\n");
-    
+
     printf("ID do Item: ");
     fgets(itens[i].id, sizeof(itens[i].id), stdin);
     fgets(itens[i].id, sizeof(itens[i].id), stdin);
     strtok(itens[i].id, "\n");
-    
+
     //tratamento de erro
     for(int cont = 0; cont < i; cont++){
 	    while(strcmp(itens[i].id, itens[cont].id) == 0){
@@ -155,13 +157,13 @@ void additem(){
             strtok(itens[i].id, "\n");
         }
     }
-    
+
     //atribuir nome ao item
     printf("Nome do Item: ");
     fgets(itens[i].nome, sizeof(itens[i].nome), stdin);
     fgets(itens[i].nome, sizeof(itens[i].nome), stdin);
     strtok(itens[i].nome, "\n");
-    
+
     //tratamento de erro
     for(int cont = 0; cont < i; cont++){
 	    while(strcmp(itens[i].nome, itens[cont].nome) == 0){
@@ -170,19 +172,19 @@ void additem(){
             strtok(itens[i].nome, "\n");
         }
     }
-    
+
     //atribuir unidades ao item
     printf("Unidades Disponíveis: ");
     scanf(" %d", &itens[i].uni);
-    
+
     //atribuir preço ao item
     printf("Preço do Item: ");
     scanf(" %f", &itens[i].preco);
-    
+
     i++;
-    
+
     printf("\n\033[1mItem Registrado!\033[0m\n");
-    
+
     estoque();
 }
 
@@ -192,7 +194,7 @@ void vendas() {
     int qtd; //para selecionar quantidade vendida
     float total; //total do valor vendido
     int selecitem = -1; //espaço no vetor do item selecionado para venda
-    
+
 	printf("\n\033[1mVendas\033[0m\n");
 	//visualizaçãao dos itens
 	printf("Itens Disponíveis:\n");
@@ -204,19 +206,19 @@ void vendas() {
 	printf("Voltar \033[1m(digite 0)\033[0m\n\n");
 	printf("\033[1mEscolha: \033[0m");
 	scanf(" %d", &d);
-	
+
 	//tratamento de erro
 	while(d!=1 && d!=2 && d!=0) {
 		printf("\033[1mComando inválido, digite novamente: \033[0m");
 		scanf(" %d", &d);
 	}
-	
+
 	switch(d){
 	    //registrar venda
 	    case 1:
 	        printf("\nItem Vendido (digite o ID do item): ");
 	        scanf(" %s", item);
-	        
+
 	        //verificação se ID existe no estoque
 	        for(int cont = 0; cont < i; cont++){
 	            if(strcmp(item, itens[cont].id) == 0){
@@ -224,7 +226,7 @@ void vendas() {
                     break;
                 }
 	        }
-	        
+
 	        //tratamento de erro
 	        while(selecitem == -1){
                 printf("ID inválido, digite novamente: ");
@@ -236,26 +238,26 @@ void vendas() {
                     }
     	        }
 	        }
-	        
+
 	        printf("Quantidade Vendida: ");
 	        scanf("%d", &qtd);
-	        
+
 	        //tratamento de erro
             while(qtd > itens[selecitem].uni){
 	            printf("Quantidade maior do que itens em estoque, digite novamente: ");
 	            scanf("%d", &qtd);
 	        }
-	        
+
 	        printf("\nConfirmar? \033[1m(1 para sim, 2 para não)\033[0m\n");
 	        printf("\033[1mEscolha: \033[0m");
 	        scanf(" %d", &d);
-	        
+
 	        //tratamento de erro
 	        while(d!=1 && d!=2) {
 		        printf("\033[1mComando inválido, digite novamente: \033[0m");
 		        scanf(" %d", &d);
 	        }
-	        
+
 	        switch(d){
 	            case 1:
 	                total = qtd * itens[selecitem].preco;
@@ -267,16 +269,16 @@ void vendas() {
         	        itens[selecitem].qtdvend = itens[selecitem].qtdvend + qtd;
         	        itens[selecitem].uni = itens[selecitem].uni - qtd;
         	        vendas();
-	            
+
 	            case 2:
 	                printf("\n\033[1mVenda Cancelada!\033[0m\n");
 	                vendas();
 	        }
-	        
+
 	    //total vendido por categoria
 	    case 2:
 	        totalpitem(total, item);
-	    
+
 	    //voltar ao menu principal
 	    case 0:
 	        submenus();
@@ -290,7 +292,7 @@ float pagamento(float total){
     float troco; //valor do troco
     int fpag; //forma de pagamento
     int conf; //decisão de confirmação
-    
+
     do{
 	    printf("\nForma de Pagamento \033[1m(1 para dinheiro, 2 para cartão)\033[0m: ");
 	    scanf(" %d", &fpag);
@@ -317,7 +319,7 @@ float pagamento(float total){
                 troco = vpag - total;
                 printf("Troco a ser retornado: R$%.2f", troco);
                 break;
-	                
+
 	        case 2:
 	            printf("Valor da compra: R$%.2f \n", total);
         	    printf("Pagamento OK? \033[1m(1 para sim, 2 para não)\033[0m\n");
@@ -330,7 +332,7 @@ float pagamento(float total){
         	    break;
         }
 	}while(d==2);
-	
+
 	return total;
 }
 
@@ -371,21 +373,21 @@ void financeiro() {
         case 1:
             despesas();
 	        break;
-	    
+
 	    //registrar receitas
 	    case 2:
 	        receitas();
 	        break;
-	       
+
 	    //consultar saldo
 	    case 3:
 	        saldo();
 	        break;
-	        
+
 	    case 0:
 	        submenus();
 	        break;
-	    
+
 	}
 }
 
@@ -393,7 +395,7 @@ void financeiro() {
 //submenu financeiro: opção despesas
 void despesas() {
     float des; //valor da despesa
-    
+
     printf("\nValor da Despesa: R$");
 	scanf(" %f", &des);
 	printf("\nConfirmar? \033[1m(1 para sim, 2 para não)\033[0m\n");
@@ -472,19 +474,19 @@ void testador() {
     for(int cont = 0; cont < i; cont++){
         printf("Item %d: %.2f \n", (cont + 1), itens[cont].preco);
     }
-    
+
     printf("Voltar (digite 0)\n\n");
 	printf("Escolha: ");
 	scanf(" %d", &d);
-	
+
 	//tratamento de erro
 	while(d!=0) {
 		printf("Comando inválido, digite novamente: ");
 		scanf(" %d", &d);
 	}
-	
+
 	switch(d){
-	    
+
 	    //voltar ao menu principal
 	    case 0:
 	        main();
