@@ -249,7 +249,7 @@ void vendas() {
 	        
 	        switch(d){
 	            case 1:
-	                total = qtd * 15.00;
+	                total = qtd * itens[selecitem].preco;
         	        total = pagamento(total);
         	        printf("\n\nTotal vendido: R$%.2f \n", total);
         	        printf("Receita Registrada! \n");
