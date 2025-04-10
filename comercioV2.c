@@ -155,6 +155,7 @@ void additem(){
             fgets(itens[i].id, sizeof(itens[i].id), stdin);
             fgets(itens[i].id, sizeof(itens[i].id), stdin);
             strtok(itens[i].id, "\n");
+	    cont = 0;
         }
     }
 
@@ -170,6 +171,7 @@ void additem(){
             printf("Nome já está em uso, digite novamente: ");
             fgets(itens[i].nome, sizeof(itens[i].nome), stdin);
             strtok(itens[i].nome, "\n");
+	    cont = 0;
         }
     }
 
