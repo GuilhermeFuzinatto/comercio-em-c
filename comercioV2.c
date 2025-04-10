@@ -1,5 +1,3 @@
-
-,/54-*95263+,,3
 //bibliotecas
 #include <stdio.h>
 #include <stdlib.h>
