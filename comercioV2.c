@@ -1,5 +1,3 @@
-//ARRUMAR: CONTROLE DE VENDA - VENDA DE NOVOS ITENS (OPCIONAL - ID AUTOMATICO)
-
 //bibliotecas
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +12,7 @@ void additem();
 
 void vendas();
 float pagamento(float total);
-void totalpitem(float total, int item);
+void totalpitem(float total, char item[4]);
 
 void financeiro();
 void despesas();
@@ -181,10 +179,10 @@ void additem(){
 
 //submenu vendas
 void vendas() {
-    char item[4]; //para selecionar o item vendido
+    char item[4]; //para selecionar o ID do item vendido
     int qtd; //para selecionar quantidade vendida
     float total; //total do valor vendido
-    int achaitem = 0; //verifica se o ID digitado existe no estoque
+    int selecitem = -1; //espaço no vetor do item selecionado para venda
     
 	printf("\nVendas\n");
 	//visualizaçãao dos itens
@@ -205,25 +203,26 @@ void vendas() {
 	}
 	
 	switch(d){
-	    
 	    //registrar venda
 	    case 1:
 	        printf("\nItem Vendido (digite o ID do item): ");
 	        scanf(" %s", item);
 	        
+	        //verificação se ID existe no estoque
 	        for(int cont = 0; cont < i; cont++){
 	            if(strcmp(item, itens[cont].id) == 0){
-                    achaitem = cont;
+                    selecitem = cont;
                     break;
                 }
 	        }
 	        
-	        while(achaitem == 0){
+	        //tratamento de erro
+	        while(selecitem == -1){
                 printf("ID inválido, digite novamente: ");
                 scanf(" %s", item);
                 for(int cont = 0; cont < i; cont++){
     	            if(strcmp(item, itens[cont].id) == 0){
-                        achaitem = cont;
+                        selecitem = cont;
                         break;
                     }
     	        }
@@ -231,58 +230,38 @@ void vendas() {
 	        
 	        printf("Quantidade Vendida: ");
 	        scanf("%d", &qtd);
-	        while((item==001 && qtd>itens[0].uni) || (item==002 && qtd>itens[1].uni) || (item==003 && qtd>itens[2].uni)){
+	        
+	        //tratamento de erro
+            while(qtd > itens[selecitem].uni){
 	            printf("Quantidade maior do que itens em estoque, digite novamente: ");
 	            scanf("%d", &qtd);
 	        }
+	        
 	        printf("\nConfirmar? (1 para sim, 2 para não)\n");
 	        printf("Escolha: ");
 	        scanf(" %d", &d);
+	        
+	        //tratamento de erro
 	        while(d!=1 && d!=2) {
 		        printf("Comando inválido, digite novamente: ");
 		        scanf(" %d", &d);
 	        }
+	        
 	        switch(d){
+	            case 1:
+	                total = qtd * 15.00;
+        	        total = pagamento(total);
+        	        printf("\n\nTotal vendido: R$%.2f \n", total);
+        	        printf("Receita Registrada! \n");
+        	        sald = sald + total;
+        	        itens[selecitem].vend = itens[selecitem].vend + total;
+        	        itens[selecitem].qtdvend = itens[selecitem].qtdvend + qtd;
+        	        itens[selecitem].uni = itens[selecitem].uni - qtd;
+        	        vendas();
+	            
 	            case 2:
 	                printf("\nVenda Cancelada!\n");
-	                vendas(sald);
-	        }
-	        switch(item){
-	            case 001:
-	                total = qtd * 15.00;
-	                total = pagamento(total);
-	                printf("\n\nTotal vendido: R$%.2f \n", total);
-	                printf("Receita Registrada! \n");
-	                sald = sald + total;
-	                itens[0].vend = itens[0].vend + total;
-	                itens[0].qtdvend = itens[0].qtdvend + qtd;
-	                itens[0].uni = itens[0].uni - qtd;
 	                vendas();
-	                break;
-	               
-	            case 002:
-	                total = qtd * 20.00;
-	                total = pagamento(total);
-	                printf("\n\nTotal vendido: R$%.2f \n", total);
-	                printf("Receita Registrada! \n");
-	                sald = sald + total;
-	                itens[1].vend = itens[1].vend + total;
-	                itens[1].qtdvend = itens[1].qtdvend + qtd;
-	                itens[1].uni = itens[1].uni - qtd;
-	                vendas();
-	                break;
-	                
-	            case 003:
-	                total = qtd * 45.00;
-	                total = pagamento(total);
-	                printf("\n\nTotal vendido: R$%.2f \n", total);
-	                printf("Receita Registrada! \n");
-	                sald = sald + total;
-	                itens[2].vend = itens[2].vend + total;
-	                itens[2].qtdvend = itens[2].qtdvend + qtd;
-	                itens[2].uni = itens[2].uni - qtd;
-	                vendas();
-	                break;
 	        }
 	        
 	    //total vendido por categoria
@@ -346,12 +325,12 @@ float pagamento(float total){
 	return total;
 }
 
-void totalpitem(float total, int item){
+void totalpitem(float total, char item[4]){
     printf("Valor e Quantidade Vendida por Item");
 	for(int cont = 0; cont < i; cont++){
 	    printf("\nItem %s - Valor Vendido: R$%.2f ; Quantidade: %d", itens[cont].id, itens[cont].vend, itens[cont].qtdvend);
 	}
-	printf("\nVoltar (digite 0)\n");
+	printf("\nVoltar (digite 0)\n\n");
 	printf("Escolha: ");
 	scanf(" %d", &d);
 	while(d!=0){
