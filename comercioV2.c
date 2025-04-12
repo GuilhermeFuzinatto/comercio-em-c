@@ -9,6 +9,7 @@ int submenus();
 
 void estoque();
 void additem();
+void edititem();
 
 void vendas();
 float pagamento(float total);
@@ -115,12 +116,13 @@ void estoque() {
 	}
 
 	printf("Adicionar Item \033[1m(digite 1)\033[0m\n");
+	printf("Editar Item \033[1m(digite 2)\033[0m\n");
 	printf("Voltar \033[1m(digite 0)\033[0m\n\n");
 	printf("\033[1mEscolha: \033[0m");
 	scanf(" %d", &d);
 
 	//tratamento de erro
-	while(d!=0 && d!=1) {
+	while(d!=0 && d!=1 && d!=2) {
 		printf("\033[1mComando inválido, digite novamente: \033[0m");
 		scanf(" %d", &d);
 	}
@@ -129,6 +131,9 @@ void estoque() {
 	    //adicionar item
 	    case 1:
 	        additem();
+	        
+	    case 2:
+	        edititem();
 
 	    //voltar ao menu principal
 	    case 0:
@@ -137,7 +142,7 @@ void estoque() {
 	}
 }
 
-//adicionar item TERMINAR
+//adicionar item
 void additem(){
     printf("\n\033[1mAdicionar Item\033[0m\n");
 
@@ -176,16 +181,152 @@ void additem(){
     //atribuir unidades ao item
     printf("Unidades Disponíveis: ");
     scanf(" %d", &itens[i].uni);
+    
+    //tratamento de erro
+    while(itens[i].uni < 0){
+        printf("Valor Inválido, digite novamente: ");
+        scanf(" %d", &itens[i].uni);
+    }
 
     //atribuir preço ao item
     printf("Preço do Item: ");
     scanf(" %f", &itens[i].preco);
+    
+    //tratamento de erro
+    while(itens[i].preco < 0){
+        printf("Valor Inválido, digite novamente: ");
+        scanf(" %f", &itens[i].preco);
+    }
 
     i++;
 
     printf("\n\033[1mItem Registrado!\033[0m\n");
 
     estoque();
+}
+
+//editar item
+void edititem(){
+    char item[4]; //para selecionar o ID do item a ser editado
+    int selecitem = -1; //espaço no vetor do item selecionado para editar
+    
+    printf("\n\033[1mEditar Item\033[0m\n");
+    
+    //selecionar item a ser editado
+    printf("ID do item a ser editado: ");
+    scanf(" %s", item);
+
+	//verificação se ID existe no estoque
+	for(int cont = 0; cont < i; cont++){
+	    if(strcmp(item, itens[cont].id) == 0){
+        selecitem = cont;
+        break;
+        }
+	}
+
+	//tratamento de erro
+	while(selecitem == -1){
+        printf("ID inválido, digite novamente: ");
+        scanf(" %s", item);
+        for(int cont = 0; cont < i; cont++){
+    	    if(strcmp(item, itens[cont].id) == 0){
+                selecitem = cont;
+                break;
+            }
+    	}
+    }
+    
+    printf("\nItem Selecionado:\n");
+    printf("%s. %s - Unidades: %d - Preço: %.2f\n\n", itens[selecitem].id, itens[selecitem].nome, itens[selecitem].uni, itens[selecitem].preco);
+    printf("Qual atributo você quer editar?\n\033[1m(1 para ID, 2 para Nome, 3 para Unidades, 4 para Preço, 0 para Cancelar)\033[0m\n\n");
+    printf("\033[1mEscolha: \033[0m");
+    scanf(" %d", &d);
+
+	//tratamento de erro
+	while(d!=0 && d!=1 && d!=2 && d!=3 && d!=4) {
+		printf("\033[1mComando inválido, digite novamente: \033[0m");
+		scanf(" %d", &d);
+	}
+	
+	switch(d){
+	    case 0:
+	        estoque();
+	        break;
+	        
+	    case 1:
+	        printf("\nDigite o novo ID: ");
+	        fgets(itens[selecitem].id, sizeof(itens[selecitem].id), stdin);
+            fgets(itens[selecitem].id, sizeof(itens[selecitem].id), stdin);
+            strtok(itens[selecitem].id, "\n");
+
+            //tratamento de erro
+            for(int cont = 0; cont < i; cont++){
+                if(cont!=selecitem){
+    	            while(strcmp(itens[selecitem].id, itens[cont].id) == 0){
+                        printf("ID já está em uso, digite novamente: ");
+                        fgets(itens[selecitem].id, sizeof(itens[selecitem].id), stdin);
+                        fgets(itens[selecitem].id, sizeof(itens[selecitem].id), stdin);
+                        strtok(itens[selecitem].id, "\n");
+    	                cont = 0;
+                    }
+                }
+            }
+            
+            printf("\033[1mID Atualizado!\n\033[0m");
+            estoque();
+            break;
+	        
+	    case 2:
+	        printf("\nDigite o novo Nome: ");
+	        fgets(itens[selecitem].nome, sizeof(itens[selecitem].nome), stdin);
+	        fgets(itens[selecitem].nome, sizeof(itens[selecitem].nome), stdin);
+            strtok(itens[selecitem].nome, "\n");
+            
+            //tratamento de erro
+            for(int cont = 0; cont < i; cont++){
+                if(cont!=selecitem){
+    	            while(strcmp(itens[selecitem].nome, itens[cont].nome) == 0){
+                        printf("Nome já está em uso, digite novamente: ");
+                        fgets(itens[selecitem].nome, sizeof(itens[selecitem].nome), stdin);
+                        strtok(itens[selecitem].nome, "\n");
+    	                cont = 0;
+                    }
+                }
+            }
+            
+            printf("\033[1mNome Atualizado!\n\033[0m");
+            estoque();
+            break;
+            
+        case 3:
+            printf("\nDigite a nova Quantidade de Unidades Disponíveis: ");
+            scanf(" %d", &itens[selecitem].uni);
+    
+            //tratamento de erro
+            while(itens[selecitem].uni < 0){
+                printf("Valor Inválido, digite novamente: ");
+                scanf(" %d", &itens[selecitem].uni);
+            }
+            
+            printf("\033[1mUnidades Atualizadas!\n\033[0m");
+            estoque();
+            break;
+            
+        case 4:
+            printf("\nDigite o novo Preço: ");
+            scanf(" %f", &itens[selecitem].preco);
+    
+            //tratamento de erro
+            while(itens[selecitem].preco < 0){
+                printf("Valor Inválido, digite novamente: ");
+                scanf(" %f", &itens[selecitem].preco);
+            }
+            
+            printf("\033[1mPreço Atualizadao\n\033[0m");
+            estoque();
+            break;
+	}
+    
 }
 
 //submenu vendas
