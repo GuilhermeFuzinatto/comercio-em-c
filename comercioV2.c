@@ -10,6 +10,7 @@ int submenus();
 void estoque();
 void additem();
 void edititem();
+void delitem();
 
 void vendas();
 float pagamento(float total);
@@ -25,6 +26,7 @@ void saldo();
 //variáveis globais
 int i = 3; //espaço atual a ser preenchido nos vetores
 float sald = 0; //saldo total
+int exc = 0; //verifica quantos espaços de itens excluídos existem, para serem preenchidos novamente
 
 //dados dos itens
 struct Item{
@@ -117,12 +119,13 @@ void estoque() {
 
 	printf("Adicionar Item \033[1m(digite 1)\033[0m\n");
 	printf("Editar Item \033[1m(digite 2)\033[0m\n");
+	printf("Excluir Item \033[1m(digite 3)\033[0m\n");
 	printf("Voltar \033[1m(digite 0)\033[0m\n\n");
 	printf("\033[1mEscolha: \033[0m");
 	scanf(" %d", &d);
 
 	//tratamento de erro
-	while(d!=0 && d!=1 && d!=2) {
+	while(d!=0 && d!=1 && d!=2 && d!=3) {
 		printf("\033[1mComando inválido, digite novamente: \033[0m");
 		scanf(" %d", &d);
 	}
@@ -132,8 +135,12 @@ void estoque() {
 	    case 1:
 	        additem();
 	        
+	    //editar item
 	    case 2:
 	        edititem();
+	        
+	    case 3:
+	        delitem();
 
 	    //voltar ao menu principal
 	    case 0:
@@ -322,11 +329,70 @@ void edititem(){
                 scanf(" %f", &itens[selecitem].preco);
             }
             
-            printf("\033[1mPreço Atualizadao\n\033[0m");
+            printf("\033[1mPreço Atualizado!\n\033[0m");
             estoque();
             break;
 	}
+}
+
+//excluir item
+void delitem(){
+    char item[4]; //para selecionar o ID do item a ser excluído
+    int selecitem = -1; //espaço no vetor do item selecionado para excluir
     
+    printf("\n\033[1mExcluir Item\033[0m\n");
+    
+    //selecionar item a ser editado
+    printf("ID do item a ser excluído: ");
+    scanf(" %s", item);
+
+	//verificação se ID existe no estoque
+	for(int cont = 0; cont < i; cont++){
+	    if(strcmp(item, itens[cont].id) == 0){
+        selecitem = cont;
+        break;
+        }
+	}
+
+	//tratamento de erro
+	while(selecitem == -1){
+        printf("ID inválido, digite novamente: ");
+        scanf(" %s", item);
+        for(int cont = 0; cont < i; cont++){
+    	    if(strcmp(item, itens[cont].id) == 0){
+                selecitem = cont;
+                break;
+            }
+    	}
+    }
+    
+    printf("\nItem Selecionado:\n");
+    printf("%s. %s - Unidades: %d - Preço: %.2f\n\n", itens[selecitem].id, itens[selecitem].nome, itens[selecitem].uni, itens[selecitem].preco);
+    printf("Confirmar? \033[1m(1 para Confirmar, 2 para Cancelar)\n\033[0m");
+    printf("\033[1mEscolha: \033[0m");
+    scanf(" %d", &d);
+
+	//tratamento de erro
+	while(d!=1 && d!=2) {
+		printf("\033[1mComando inválido, digite novamente: \033[0m");
+		scanf(" %d", &d);
+	}
+    
+    switch(d){
+        case 2:
+            estoque();
+            break;
+            
+        case 1:
+            for(int cont = selecitem; cont < (i - 1); cont++){
+                itens[cont] = itens[cont + 1];
+            }
+            i--;
+            
+            printf("\n\033[1mItem Excluído!\n\033[0m");
+            estoque();
+            break;
+    }
 }
 
 //submenu vendas
