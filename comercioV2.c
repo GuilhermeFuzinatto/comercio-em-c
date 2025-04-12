@@ -40,7 +40,7 @@ struct Item{
 struct Item itens[50] = {
     {0, 0, 10, "001", 15, "Banana"},
     {0, 0, 10, "002", 20, "Uva"},
-    {0, 0, 10, "003", 45, "Maçã"},
+    {0, 0, 10, "003", 45, "Laranja"},
 };
 
 int d; //decisões no programa
